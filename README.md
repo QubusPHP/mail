@@ -104,7 +104,6 @@ $mail->send(function ($message) {
 ```
 
 ### Sending Attachment
-You can send an email using an email template and pass in variables that can be replaced.
 
 ```php
 $mail->send(function ($message) {
