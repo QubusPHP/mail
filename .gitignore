@@ -1,0 +1,5 @@
+/config/
+/vendor/
+.phpcs-cache
+email.html
+index.php
