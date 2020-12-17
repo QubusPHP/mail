@@ -8,6 +8,7 @@ use stdClass;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
+use Swift_Transport;
 
 use function array_diff;
 use function array_merge;
@@ -35,7 +36,7 @@ class Driver
      *
      * @var mixed
      */
-    public $transport;
+    public ?Swift_Transport $transport = null;
 
     /**
      * The instance of the SwiftNailer mailer.

@@ -12,7 +12,6 @@
     <arg value="p"/>
 
     <!-- Paths to check -->
-    <file>./Tests</file>
     <file>./Transport</file>
     <file>./Mailer.php</file>
 
