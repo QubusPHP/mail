@@ -113,7 +113,7 @@ $mail->send(function ($message) {
     $message->body('This is a regular plain text message.');
     $message->charset('utf-8');
     $message->html(false);
-    $message->attach('/path/to/file.pdf);
+    $message->attach('/path/to/file.pdf');
 });
 ```
  
