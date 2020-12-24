@@ -54,7 +54,7 @@ use Qubus\Config\Collection;
 use Qubus\Mail\Mailer;
 
 $config = Collection::factory([
-    'path' => __DIR__ . "/config"
+    'path' => __DIR__ . '/config'
 ]);
 
 $mail = (new Mailer())->factory('smtp', $config);
