@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Qubus\Mail
+ *
+ * @link       https://github.com/QubusPHP/mail
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\Mail;
@@ -36,7 +46,7 @@ class Mailer
                 $this->driver = new Sendmail($config);
                 break;
             default:
-                throw new Exception("Swiftmailer Driver {$driver} is not supported.");
+                throw new Exception("Swift Mailer Driver {$driver} is not supported.");
         }
 
         return $this;
