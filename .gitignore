@@ -1,5 +1,6 @@
 /config/
 /vendor/
 .phpcs-cache
+composer.lock
 email.html
 index.php
