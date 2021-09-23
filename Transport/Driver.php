@@ -4,7 +4,7 @@
  * Qubus\Mail
  *
  * @link       https://github.com/QubusPHP/mail
- * @copyright  2020 Joshua Parker
+ * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -154,7 +154,7 @@ class Driver
      *
      * @return Driver
      */
-    public function from(string $email, ?string $name = null)
+    public function from(string|array $email, ?string $name = null)
     {
         if (! is_array($email)) {
             $this->swift()->addFrom($email, $name);
@@ -170,7 +170,7 @@ class Driver
      *
      * @return Driver
      */
-    public function reply(mixed $email, ?string $name = null)
+    public function reply(string|array $email, ?string $name = null)
     {
         $this->swift()->setReplyTo($email, $name);
 
@@ -180,10 +180,9 @@ class Driver
     /**
      * Add an email address to the list of emails to send the email to.
      *
-     * @param string|array $email
      * @return Driver
      */
-    public function to($email, ?string $name = null)
+    public function to(string|array $email, ?string $name = null)
     {
         if (! is_array($email)) {
             $this->swift()->addTo($email, $name);
@@ -209,10 +208,9 @@ class Driver
     /**
      * Add an email address to the list of emails the email should be copied to.
      *
-     * @param string|array $email
      * @return Driver
      */
-    public function cc($email, ?string $name = null)
+    public function cc(string|array $email, ?string $name = null)
     {
         if (! is_array($email)) {
             $this->swift()->addCc($email, $name);
@@ -239,10 +237,9 @@ class Driver
      * Add an email address to the list of emails the email should be
      * blind-copied to.
      *
-     * @param string|array $email
      * @return Driver
      */
-    public function bcc($email, ?string $name = null)
+    public function bcc(string|array $email, ?string $name = null)
     {
         if (! is_array($email)) {
             $this->swift()->addBcc($email, $name);
@@ -290,7 +287,7 @@ class Driver
      * @param array        $options Array of options.
      * @return string
      */
-    public function body($data, array $options = [])
+    public function body(string|array $data, array $options = [])
     {
         $defaultOptions = [
             'template_path'    => null,
