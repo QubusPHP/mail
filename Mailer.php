@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Qubus\Mail;
 
 use Closure;
-use Qubus\Config\Collection;
+use Qubus\Config\ConfigContainer;
 use Qubus\Exception\Exception;
 use Qubus\Mail\Transport\Sendmail;
 use Qubus\Mail\Transport\Smtp;
@@ -33,10 +33,10 @@ class Mailer
      * Create a new Swift Mailer driver instance.
      *
      * @param string     $driver
-     * @param Collection $config
+     * @param ConfigContainer $config
      * @return Driver
      */
-    public function factory($driver, $config)
+    public function factory(string $driver, ConfigContainer $config)
     {
         switch ($driver) {
             case 'smtp':
