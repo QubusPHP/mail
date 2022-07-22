@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Qubus\Mail\Transport;
 
-use Qubus\Config\Collection;
+use Qubus\Config\ConfigContainer;
 use Swift_SendmailTransport;
 
 class Sendmail extends Driver
@@ -24,7 +24,7 @@ class Sendmail extends Driver
      *
      * @return void
      */
-    public function __construct(Collection $config)
+    public function __construct(ConfigContainer $config)
     {
         $this->transport = new Swift_SendmailTransport($config->getConfigKey('mailer.sendmail.command'));
     }
