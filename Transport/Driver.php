@@ -18,6 +18,8 @@ use stdClass;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
+use Swift_Mime_Header;
+use Swift_OutputByteStream;
 use Swift_Transport;
 
 use function array_diff;
@@ -58,7 +60,7 @@ class Driver
      *
      * @var mixed $body
      */
-    public $body;
+    public mixed $body;
 
     /**
      * The number of successfully sent emails.
@@ -115,7 +117,7 @@ class Driver
      *
      * @return Driver
      */
-    public function html(bool $useHtml = true)
+    public function html(bool $useHtml = true): static
     {
         $contentType = $useHtml ? 'text/html' : 'text/plain';
 
@@ -129,7 +131,7 @@ class Driver
      *
      * @return Driver
      */
-    public function charset(string $encoding = 'utf-8')
+    public function charset(string $encoding = 'utf-8'): static
     {
         $this->swift()->setCharset($encoding);
 
@@ -142,7 +144,7 @@ class Driver
      * @param string $subject
      * @return Driver
      */
-    public function subject($subject)
+    public function subject($subject): static
     {
         $this->swift()->setSubject($subject);
 
@@ -154,7 +156,7 @@ class Driver
      *
      * @return Driver
      */
-    public function from(string|array $email, ?string $name = null)
+    public function from(string|array $email, ?string $name = null): static
     {
         if (! is_array($email)) {
             $this->swift()->addFrom($email, $name);
@@ -170,7 +172,7 @@ class Driver
      *
      * @return Driver
      */
-    public function reply(string|array $email, ?string $name = null)
+    public function reply(string|array $email, ?string $name = null): static
     {
         $this->swift()->setReplyTo($email, $name);
 
@@ -182,7 +184,7 @@ class Driver
      *
      * @return Driver
      */
-    public function to(string|array $email, ?string $name = null)
+    public function to(string|array $email, ?string $name = null): static
     {
         if (! is_array($email)) {
             $this->swift()->addTo($email, $name);
@@ -210,7 +212,7 @@ class Driver
      *
      * @return Driver
      */
-    public function cc(string|array $email, ?string $name = null)
+    public function cc(string|array $email, ?string $name = null): static
     {
         if (! is_array($email)) {
             $this->swift()->addCc($email, $name);
@@ -239,7 +241,7 @@ class Driver
      *
      * @return Driver
      */
-    public function bcc(string|array $email, ?string $name = null)
+    public function bcc(string|array $email, ?string $name = null): static
     {
         if (! is_array($email)) {
             $this->swift()->addBcc($email, $name);
@@ -287,7 +289,7 @@ class Driver
      * @param array        $options Array of options.
      * @return string
      */
-    public function body(string|array $data, array $options = [])
+    public function body(string|array $data, array $options = []): string
     {
         $defaultOptions = [
             'template_path'    => null,
@@ -339,7 +341,7 @@ class Driver
      *
      * @return void
      */
-    protected function prepareBody()
+    protected function prepareBody(): void
     {
         $body = $this->body;
 
@@ -349,12 +351,12 @@ class Driver
     /**
      * Attach a file to the email.
      *
-     * @param string|Swift_OutputByteStream  $fileData
-     * @param string                         $fileName
-     * @param string                         $mimeType
+     * @param Swift_OutputByteStream|string $fileData
+     * @param string $fileName
+     * @param string $mimeType
      * @return Driver
      */
-    public function attach($fileData, $fileName = '', $mimeType = '')
+    public function attach(Swift_OutputByteStream|string $fileData, string $fileName = '', string $mimeType = ''): static
     {
         if (file_exists($fileData)) {
             $attachment = Swift_Attachment::fromPath($fileData);
@@ -376,9 +378,9 @@ class Driver
     /**
      * Set a custom header
      *
-     * @return mixed
+     * @return Swift_Mime_Header|static|null
      */
-    public function header(string $header, ?string $value = null)
+    public function header(string $header, ?string $value = null): static|null|Swift_Mime_Header
     {
         $headers = $this->swift()->getHeaders();
 
@@ -396,7 +398,7 @@ class Driver
      *
      * @return Driver
      */
-    public function send()
+    public function send(): static
     {
         // Prepare the body before sending.
         $this->prepareBody();
@@ -429,10 +431,8 @@ class Driver
             $sent = array_diff($this->emails, $this->failed);
 
             return in_array($email, $sent);
-        } else {
-            if (null !== $this->result) {
-                return $this->result > 0;
-            }
+        } elseif (null !== $this->result) {
+            return $this->result > 0;
         }
 
         return false;
@@ -442,10 +442,10 @@ class Driver
      * Call a Swiftmailer method.
      *
      * @param string $name
-     * @param array  $arguments
+     * @param array $arguments
      * @return Driver
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         call_user_func_array([$this->swift(), $name], $arguments);
 
