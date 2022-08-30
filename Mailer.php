@@ -17,6 +17,7 @@ namespace Qubus\Mail;
 use Closure;
 use Qubus\Config\ConfigContainer;
 use Qubus\Exception\Exception;
+use Qubus\Mail\Transport\Driver;
 use Qubus\Mail\Transport\Sendmail;
 use Qubus\Mail\Transport\Smtp;
 
@@ -24,30 +25,24 @@ class Mailer
 {
     /**
      * The currently active Swift Mailer driver.
-     *
-     * @var string
      */
-    protected $driver;
+    protected Smtp|Sendmail $driver;
 
     /**
      * Create a new Swift Mailer driver instance.
      *
-     * @param string     $driver
+     * @param string $driver
      * @param ConfigContainer $config
-     * @return Driver
+     * @return Mailer
+     * @throws Exception
      */
-    public function factory(string $driver, ConfigContainer $config)
+    public function factory(string $driver, ConfigContainer $config): static
     {
-        switch ($driver) {
-            case 'smtp':
-                $this->driver = new Smtp($config);
-                break;
-            case 'sendmail':
-                $this->driver = new Sendmail($config);
-                break;
-            default:
-                throw new Exception("Swift Mailer Driver {$driver} is not supported.");
-        }
+        $this->driver = match ($driver) {
+            'smtp' => new Smtp($config),
+            'sendmail' => new Sendmail($config),
+            default => throw new Exception("Swift Mailer Driver {$driver} is not supported."),
+        };
 
         return $this;
     }
@@ -57,7 +52,7 @@ class Mailer
      *
      * @return Driver
      */
-    public function send(?Closure $callback = null)
+    public function send(?Closure $callback = null): Driver
     {
         $instance = $this->driver;
 

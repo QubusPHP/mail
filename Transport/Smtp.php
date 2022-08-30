@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Qubus\Mail\Transport;
 
 use Qubus\Config\ConfigContainer;
+use Qubus\Exception\Exception;
 use Swift_SmtpTransport;
 
 class Smtp extends Driver
@@ -23,6 +24,7 @@ class Smtp extends Driver
      * Register the Swift Mailer message and transport instances.
      *
      * @return void
+     * @throws Exception
      */
     public function __construct(ConfigContainer $config)
     {
