@@ -4,10 +4,9 @@
  * Qubus\Mail
  *
  * @link       https://github.com/QubusPHP/mail
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
@@ -51,7 +50,7 @@ class Driver
     public ?Swift_Transport $transport = null;
 
     /**
-     * The instance of the SwiftNailer mailer.
+     * The instance of the SwiftMailer mailer.
      */
     protected ?Swift_Mailer $mailer = null;
 
@@ -115,6 +114,7 @@ class Driver
     /**
      * Set the HTML content type.
      *
+     * @param bool $useHtml
      * @return Driver
      */
     public function html(bool $useHtml = true): static
@@ -129,6 +129,7 @@ class Driver
     /**
      * Set the mail charset.
      *
+     * @param string $encoding
      * @return Driver
      */
     public function charset(string $encoding = 'utf-8'): static
@@ -154,6 +155,8 @@ class Driver
     /**
      * Add an email address to the from list.
      *
+     * @param string|array $email
+     * @param string|null $name
      * @return Driver
      */
     public function from(string|array $email, ?string $name = null): static
@@ -170,6 +173,8 @@ class Driver
     /**
      * Add an email address to reply to.
      *
+     * @param string|array $email
+     * @param string|null $name
      * @return Driver
      */
     public function reply(string|array $email, ?string $name = null): static
@@ -182,6 +187,8 @@ class Driver
     /**
      * Add an email address to the list of emails to send the email to.
      *
+     * @param string|array $email
+     * @param string|null $name
      * @return Driver
      */
     public function to(string|array $email, ?string $name = null): static
@@ -210,6 +217,8 @@ class Driver
     /**
      * Add an email address to the list of emails the email should be copied to.
      *
+     * @param string|array $email
+     * @param string|null $name
      * @return Driver
      */
     public function cc(string|array $email, ?string $name = null): static
@@ -239,6 +248,8 @@ class Driver
      * Add an email address to the list of emails the email should be
      * blind-copied to.
      *
+     * @param string|array $email
+     * @param string|null $name
      * @return Driver
      */
     public function bcc(string|array $email, ?string $name = null): static
@@ -334,10 +345,12 @@ class Driver
                 $this->body = str_replace("{{" . $key . "}}", $value, $this->body);
             }
         }
+
+        return '';
     }
 
     /**
-     * Prepare the body and send it to the Swiftmailer.
+     * Prepare the body and send it to the SwiftMailer.
      *
      * @return void
      */
@@ -356,8 +369,11 @@ class Driver
      * @param string $mimeType
      * @return Driver
      */
-    public function attach(Swift_OutputByteStream|string $fileData, string $fileName = '', string $mimeType = ''): static
-    {
+    public function attach(
+        Swift_OutputByteStream|string $fileData,
+        string $fileName = '',
+        string $mimeType = ''
+    ): static {
         if (file_exists($fileData)) {
             $attachment = Swift_Attachment::fromPath($fileData);
             if ($fileName !== '') {
@@ -378,6 +394,8 @@ class Driver
     /**
      * Set a custom header
      *
+     * @param string $header
+     * @param string|null $value
      * @return Swift_Mime_Header|static|null
      */
     public function header(string $header, ?string $value = null): static|null|Swift_Mime_Header
@@ -439,7 +457,7 @@ class Driver
     }
 
     /**
-     * Call a Swiftmailer method.
+     * Call a SwiftMailer method.
      *
      * @param string $name
      * @param array $arguments
