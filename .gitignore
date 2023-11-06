@@ -1,7 +1,8 @@
 /config/
+/files/
+template/
 /vendor/
 .idea
 .phpcs-cache
 composer.lock
-email.html
 index.php
