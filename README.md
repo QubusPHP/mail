@@ -1,6 +1,6 @@
 # Mailer Component
 
-A mailer component that allows you to send email easily with Swiftmailer.
+A mailer component that allows you to send email easily with PHPMailer.
 
 ## Requirements
 * PHP 8.2+
