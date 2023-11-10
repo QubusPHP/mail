@@ -30,16 +30,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Set the From and FromName properties.
-     *
-     * @param string $address
-     * @param string $name
-     * @param bool $auto Whether to also set the Sender address, defaults to true.
-     *
-     * @return QubusMailer
-     * @throws Exception
+     * @inheritDoc
      */
-    public function withFrom(string $address, string $name = '', bool $auto = true): self
+    public function withFrom(string $address, string $name = '', bool $auto = true): static
     {
         $new = clone $this;
         $new->setFrom($address, $name, $auto);
@@ -48,14 +41,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Add a "To" address.
-     *
-     * @param string|array $address The email address(es) to send to.
-     *
-     * @return QubusMailer
-     * @throws Exception
+     * @inheritDoc
      */
-    public function withTo(string|array $address): self
+    public function withTo(string|array $address): static
     {
         $new = clone $this;
         $new->clearAddresses();
@@ -65,13 +53,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Add a "CC" address.
-     *
-     * @param string|array $address The email address(es) to send to.
-     * @return QubusMailer
-     * @throws Exception
+     * @inheritDoc
      */
-    public function withCc(string|array $address): self
+    public function withCc(string|array $address): static
     {
         $new = clone $this;
         $new->clearCCs();
@@ -81,13 +65,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Add a "BCC" address.
-     *
-     * @param string|array $address The email address(es) to send to.
-     * @return QubusMailer
-     * @throws Exception
+     * @inheritDoc
      */
-    public function withBcc(string|array $address): self
+    public function withBcc(string|array $address): static
     {
         $new = clone $this;
         $new->clearBCCs();
@@ -97,13 +77,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Add a "Reply-To" address.
-     *
-     * @param string|array $address The email address(es) to reply to.
-     * @return QubusMailer
-     * @throws Exception
+     * @inheritDoc
      */
-    public function withReplyTo(string|array $address): self
+    public function withReplyTo(string|array $address): static
     {
         $new = clone $this;
         $new->clearReplyTos();
@@ -141,15 +117,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * The envelope sender of the message.
-     *
-     * This will usually be turned into a Return-Path header by the receiver,
-     * and is the address that bounces will be sent to.
-     *
-     * @param string $sender
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withSender(string $sender = ''): self
+    public function withSender(string $sender = ''): static
     {
         $new = clone $this;
         $new->Sender = $sender;
@@ -158,12 +128,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * The Subject of the message.
-     *
-     * @param string $subject
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withSubject(string $subject = ''): self
+    public function withSubject(string $subject = ''): static
     {
         $new = clone $this;
         $new->Subject = $subject;
@@ -172,12 +139,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Sets message type to HTML or plaintext.
-     *
-     * @param bool $isHtml True for HTML mode.
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withHtml(bool $isHtml = false): self
+    public function withHtml(bool $isHtml = false): static
     {
         $new = clone $this;
         $new->isHTML($isHtml);
@@ -186,15 +150,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Email priority.
-     *
-     * Options: null (default), 1 = High, 3 = Normal, 5 = low.
-     * When null, the header is not set at all.
-     *
-     * @param int|null $priority
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withPriority(?int $priority = null): self
+    public function withPriority(?int $priority = null): static
     {
         $new = clone $this;
         $new->Priority = $priority;
@@ -203,12 +161,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * The character set of the message.
-     *
-     * @param string $charset
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withCharset(string $charset = self::CHARSET_ISO88591): self
+    public function withCharset(string $charset = self::CHARSET_ISO88591): static
     {
         $new = clone $this;
         $new->CharSet = $charset;
@@ -217,18 +172,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Add a custom header.
-     *
-     * $name value can be overloaded to contain
-     * both header name and value (name:value).
-     *
-     * @param string $name Custom header name
-     * @param string|null $value Header value
-     *
-     * @return QubusMailer
-     * @throws Exception
+     * @inheritDoc
      */
-    public function withCustomHeader(string $name, ?string $value = null): self
+    public function withCustomHeader(string $name, ?string $value = null): static
     {
         $new = clone $this;
         $new->clearCustomHeaders();
@@ -238,12 +184,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * The MIME Content-type of the message.
-     *
-     * @param string $contentType
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withContentType(string $contentType = self::CONTENT_TYPE_PLAINTEXT): self
+    public function withContentType(string $contentType = self::CONTENT_TYPE_PLAINTEXT): static
     {
         $new = clone $this;
         $new->ContentType = $contentType;
@@ -252,16 +195,7 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Add an attachment from a path on the filesystem.
-     *
-     * @param string $path Path to the attachment
-     * @param string $name Overrides the attachment name
-     * @param string $encode File encoding (see $Encoding)
-     * @param string $type MIME type, e.g. `image/jpeg`; determined automatically from $path if not specified
-     * @param string $disposition Disposition to use.
-     *
-     * @return QubusMailer
-     * @throws Exception
+     * @inheritDoc
      */
     public function withAttachment(
         string $path,
@@ -269,7 +203,7 @@ class QubusMailer extends PHPMailer implements Mailer
         string $encode = self::ENCODING_BASE64,
         string $type = '',
         string $disposition = 'attachment'
-    ): self {
+    ): static {
         $new = clone $this;
         $new->clearAttachments();
         $new->addAttachment($path, $name, $encode, $type, $disposition);
@@ -278,23 +212,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Set Mail Body configuration
-     *
-     * Format email message Body, this can be an external template html file with a copy
-     * of a plain-text like template.txt or HTML/plain-text string.
-     *
-     * This method can be used by passing a template file HTML name and an associative array
-     * with the values that can be parsed into the file HTML by the key KEY_NAME found in your
-     * array to your HTML {{KEY_NAME}}.
-     *
-     * Other optional ways to format the mail body is available like instead of a template the
-     * param $data can be set as an array or string, but param $options['template_name'] must be equal to null.
-     *
-     * @param array|string $data Contain the values to be parsed in mail body.
-     * @param array $options Array of options.
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withBody(string|array $data, array $options = []): self
+    public function withBody(string|array $data, array $options = []): static
     {
         $new = clone $this;
 
@@ -353,12 +273,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * The plain-text message body.
-     *
-     * @param string $message
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withAltBody(string $message = ''): self
+    public function withAltBody(string $message = ''): static
     {
         $new = clone $this;
         $new->AltBody = $message;
@@ -367,14 +284,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * What to put in the X-Mailer header.
-     *
-     * Options: An empty string for PHPMailer default, whitespace/null for none, or a string to use.
-     *
-     * @param string|null $xmailer
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withXMailer(?string $xmailer = ''): self
+    public function withXMailer(?string $xmailer = ''): static
     {
         $new = clone $this;
         $new->XMailer = $xmailer;
@@ -383,11 +295,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Send messages using SMTP.
-     *
-     * @throws \Qubus\Exception\Exception
+     * @inheritDoc
      */
-    public function withSmtp(): self
+    public function withSmtp(): static
     {
         $new = clone $this;
         $new->isSMTP();
@@ -403,11 +313,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Send messages using PHP's native mail() function.
-     *
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withIsMail(): self
+    public function withMail(): static
     {
         $new = clone $this;
         $new->isMail();
@@ -416,11 +324,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Send messages using Sendmail.
-     *
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withIsSendmail(): self
+    public function withSendmail(): static
     {
         $new = clone $this;
         $new->isSendmail();
@@ -429,11 +335,9 @@ class QubusMailer extends PHPMailer implements Mailer
     }
 
     /**
-     * Send messages using qmail.
-     *
-     * @return QubusMailer
+     * @inheritDoc
      */
-    public function withIsQmail(): self
+    public function withQmail(): static
     {
         $new = clone $this;
         $new->isQmail();
